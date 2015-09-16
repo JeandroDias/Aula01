@@ -90,7 +90,7 @@ public class Principal {
         for (ItensPedido iten : venda2.getItensPedidos()) {
             System.out.println("Iten: " + iten.getProduto().getNome());
         }
-
+        //Teste
     }
 
 }
