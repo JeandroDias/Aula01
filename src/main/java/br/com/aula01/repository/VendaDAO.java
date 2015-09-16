@@ -6,6 +6,7 @@
 package br.com.aula01.repository;
 
 import br.com.aula01.model.Cliente;
+import br.com.aula01.model.Venda;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,26 +18,26 @@ import javax.persistence.Query;
  *
  * @author UFMS
  */
-public class ClienteDAO {
+public class VendaDAO {
 
     private final EntityManager em;
     private final EntityManagerFactory emf;
 
-    public ClienteDAO() {
+    public VendaDAO() {
         emf = Persistence.createEntityManagerFactory("Loja01PU");
 
         em = emf.createEntityManager();
     }
 
-    public void salvar(Cliente cliente) {
+    public void salvar(Venda venda) {
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
-            if (cliente.getId() == null) {
-                em.persist(cliente);
+            if (venda.getId() == null) {
+                em.persist(venda);
             } else {
-                em.merge(cliente);
+                em.merge(venda);
             }
 
             tx.commit();
@@ -47,16 +48,14 @@ public class ClienteDAO {
     }
 
    
-    public Cliente buscarPorId(Long id) {
-        return em.find(Cliente.class, id);
+    public Venda buscarPorId(Long id) {
+        return em.find(Venda.class, id);
     }
 
-    public List<Cliente> buscarTodos(Cliente cliente) {
+    public List<Venda> buscarTodos() {
         //Query consulta = em.createQuery("select c from Cliente AS c order by c.id");
 
-        Query consulta = em.createNamedQuery("Cliente.findAll");
-        consulta.setParameter("paraAtivo", "Ativo");
-        consulta.setParameter("nome", cliente.getNome());
+        Query consulta = em.createNamedQuery("Venda.findAll");
        
 
         return consulta.getResultList();
@@ -75,7 +74,7 @@ public class ClienteDAO {
     }
 
     public List<Cliente> buscaPorNome(String nome) {
-        Query q = em.createQuery("select c from Cliente c where c.nome=:nomeAD");
+        Query q = em.createQuery("select c from Venda c where c.nome=:nomeAD");
         q.setParameter("nomeAD", nome);
 
         return q.getResultList();

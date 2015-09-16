@@ -6,6 +6,7 @@
 package br.com.aula01.repository;
 
 import br.com.aula01.model.Cliente;
+import br.com.aula01.model.Produto;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,26 +18,26 @@ import javax.persistence.Query;
  *
  * @author UFMS
  */
-public class ClienteDAO {
+public class ProdutoDAO {
 
     private final EntityManager em;
     private final EntityManagerFactory emf;
 
-    public ClienteDAO() {
+    public ProdutoDAO() {
         emf = Persistence.createEntityManagerFactory("Loja01PU");
 
         em = emf.createEntityManager();
     }
 
-    public void salvar(Cliente cliente) {
+    public void salvar(Produto produto) {
         EntityTransaction tx = em.getTransaction();
 
         try {
             tx.begin();
-            if (cliente.getId() == null) {
-                em.persist(cliente);
+            if (produto.getId() == null) {
+                em.persist(produto);
             } else {
-                em.merge(cliente);
+                em.merge(produto);
             }
 
             tx.commit();
@@ -51,12 +52,10 @@ public class ClienteDAO {
         return em.find(Cliente.class, id);
     }
 
-    public List<Cliente> buscarTodos(Cliente cliente) {
+    public List<Cliente> buscarTodos() {
         //Query consulta = em.createQuery("select c from Cliente AS c order by c.id");
 
-        Query consulta = em.createNamedQuery("Cliente.findAll");
-        consulta.setParameter("paraAtivo", "Ativo");
-        consulta.setParameter("nome", cliente.getNome());
+        Query consulta = em.createNamedQuery("Produto.findAll");
        
 
         return consulta.getResultList();

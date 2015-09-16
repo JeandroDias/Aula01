@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -19,15 +21,21 @@ import javax.persistence.OneToMany;
  * @author UFMS
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
+    @NamedQuery(name = "Cliente.count", query = "SELECT AVG(c) FROM Cliente c")
+
+})
 public class Cliente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-   
+
     @Column(nullable = false)
     private String nome;
-    
+
     @OneToMany(mappedBy = "cliente")
     private List<Venda> vendas;
 
@@ -54,8 +62,5 @@ public class Cliente implements Serializable {
     public void setVendas(List<Venda> vendas) {
         this.vendas = vendas;
     }
-    
-    
-    
-    
+
 }
